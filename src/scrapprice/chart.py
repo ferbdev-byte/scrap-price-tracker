@@ -20,10 +20,11 @@ def plot(db: PriceDB, materials: list[str], out: str | Path, since: date | None 
     for m in materials:
         hist = db.history(m, since)
         if hist:
-            ax.plot([d for d, _ in hist], [p for _, p in hist], marker=".", linewidth=1.6, label=MATERIALS[m][0])
+            days = mdates.date2num([d for d, _ in hist])  # type: ignore[no-untyped-call]
+            ax.plot(days, [p for _, p in hist], marker=".", linewidth=1.6, label=MATERIALS[m][0])
     ax.set_title("Giá phế liệu (đồng/kg)")
     ax.yaxis.set_major_formatter(lambda v, _: f"{v:,.0f}".replace(",", "."))
-    ax.xaxis.set_major_formatter(mdates.DateFormatter("%d/%m"))
+    ax.xaxis.set_major_formatter(mdates.DateFormatter("%d/%m"))  # type: ignore[no-untyped-call]
     ax.grid(alpha=0.3)
     ax.legend(frameon=False)
     for side in ("top", "right"):
