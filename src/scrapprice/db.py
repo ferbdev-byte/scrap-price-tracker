@@ -87,6 +87,18 @@ class PriceDB:
                     errors.append(f"dòng {i}: {exc}")
         return ok, errors
 
+    def export_csv(self, path: str | Path, since: date | None = None) -> int:
+        """Ghi ra CSV cùng định dạng với `import_csv` (nhập lại được), UTF-8 BOM để Excel mở đúng dấu."""
+        rows = self.conn.execute(
+            "SELECT day, material, price, source, note FROM quote WHERE day>=? ORDER BY day, material, source",
+            ((since or date.min).isoformat(),),
+        ).fetchall()
+        with open(path, "w", encoding="utf-8-sig", newline="") as f:
+            w = csv.writer(f)
+            w.writerow(["ngay", "loai", "gia", "nguon", "ghi_chu"])
+            w.writerows(rows)
+        return len(rows)
+
     def history(self, material: str, since: date | None = None) -> list[tuple[date, int]]:
         """Giá theo ngày (trung bình nếu một ngày có nhiều nguồn)."""
         rows = self.conn.execute(

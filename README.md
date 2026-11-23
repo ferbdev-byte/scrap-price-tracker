@@ -47,6 +47,7 @@ scrapprice import examples/gia-mau.csv            # nhập hàng loạt
 scrapprice board                                  # bảng giá hiện tại
 scrapprice history "đồng cáp" --days 30
 scrapprice chart sat-dac sat-vun -o sat.png       # vẽ biểu đồ
+scrapprice export -o gia.csv --days 90            # xuất CSV (mở bằng Excel, nhập lại được)
 ```
 
 Định dạng CSV:

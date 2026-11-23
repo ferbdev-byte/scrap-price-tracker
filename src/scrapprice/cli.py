@@ -37,6 +37,10 @@ def main(argv: list[str] | None = None) -> int:
     i = sub.add_parser("import", help="nhập CSV: ngay,loai,gia[,nguon,ghi_chu]")
     i.add_argument("csv")
 
+    ex = sub.add_parser("export", help="xuất CSV (nhập lại được bằng import)")
+    ex.add_argument("-o", "--out", default="gia-phe-lieu.csv")
+    ex.add_argument("--days", type=int, help="chỉ lấy N ngày gần nhất")
+
     sub.add_parser("board", help="bảng giá hiện tại")
     sub.add_parser("types", help="danh mục loại phế liệu")
 
@@ -61,6 +65,9 @@ def main(argv: list[str] | None = None) -> int:
             for e in errors[:20]:
                 print("  ", e)
             return 1 if errors and not ok else 0
+        elif args.cmd == "export":
+            since = date.today() - timedelta(days=args.days) if args.days else None
+            print(f"Đã xuất {db.export_csv(args.out, since)} dòng ra {args.out}")
         elif args.cmd == "types":
             for code, (label, group) in MATERIALS.items():
                 print(f"{code:<16} {label:<22} {group}")
