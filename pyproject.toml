@@ -21,7 +21,7 @@ dependencies = []
 
 [project.optional-dependencies]
 chart = ["matplotlib>=3.7"]
-dev = ["pytest>=8", "ruff>=0.5", "mypy>=1.10", "matplotlib>=3.7"]
+dev = ["pytest>=8", "ruff>=0.5", "mypy>=1.10", "pytest-cov>=5", "matplotlib>=3.7"]
 
 [project.scripts]
 scrapprice = "scrapprice.cli:main"
@@ -41,9 +41,18 @@ select = ["E", "F", "W", "I", "B", "UP"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+addopts = "--cov=scrapprice --cov-report=term-missing"
 pythonpath = ["src"]
 
 [tool.mypy]
 strict = true
 ignore_missing_imports = true
 files = ["src"]
+
+[tool.coverage.run]
+branch = true
+
+[tool.coverage.report]
+fail_under = 80
+skip_covered = true
+exclude_also = ["if __name__ == .__main__.:", "raise SystemExit"]
