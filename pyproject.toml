@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "scrap-price-tracker"
-version = "0.1.0"
+version = "0.2.0"
 description = "Theo dõi giá phế liệu (sắt, đồng, nhôm, inox…) theo ngày: lưu SQLite, thống kê biến động, vẽ biểu đồ."
 readme = "README.md"
 license = { text = "MIT" }
